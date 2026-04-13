@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# Данные
+data/input/*
+data/output/*
+data/tmp/*
+!data/input/.gitkeep
+!data/output/.gitkeep
+
+# Модели
+models/*
+!models/.gitkeep
+
+# Логи
+logs/*
+!logs/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
