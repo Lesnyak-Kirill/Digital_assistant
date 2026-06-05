@@ -12,10 +12,6 @@ from vosk import Model, KaldiRecognizer
 
 
 def prepare_audio(input_path: str) -> str:
-    """
-    Конвертирует любой аудио/видео в WAV 16kHz Mono.
-    Возвращает путь к временному файлу.
-    """
     input_p = Path(input_path)
     output_p = TMP_DIR / f"{input_p.stem}_prepared.wav"
 
@@ -36,14 +32,9 @@ def prepare_audio(input_path: str) -> str:
 
 
 def transcribe_file(wav_path: str) -> str:
-    """
-    Распознаёт речь через Vosk.
-    """
-    # Проверка модели
     if not MODEL_DIR.exists():
         raise RuntimeError(f"Модель не найдена: {MODEL_DIR}")
 
-    # Проверяем ключевые папки модели
     required = ['am', 'conf', 'graph']
     missing = [f for f in required if not (MODEL_DIR / f).exists()]
     if missing:
@@ -67,7 +58,6 @@ def transcribe_file(wav_path: str) -> str:
                 if res.get("text"):
                     text_chunks.append(res["text"])
 
-    # Добираем остаток
     res = json.loads(rec.FinalResult())
     if res.get("text"):
         text_chunks.append(res["text"])
@@ -76,11 +66,7 @@ def transcribe_file(wav_path: str) -> str:
 
 
 def process_audio(input_path: str) -> str:
-    """
-    Полный цикл: файл → текст.
-    """
     print(f"[INFO] Обработка: {input_path}")
-
     wav_path = prepare_audio(input_path)
     try:
         text = transcribe_file(wav_path)
@@ -91,7 +77,6 @@ def process_audio(input_path: str) -> str:
             os.remove(wav_path)
 
 
-# Тест
 if __name__ == "__main__":
     import sys
 
